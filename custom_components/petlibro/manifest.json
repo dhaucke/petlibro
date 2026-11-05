@@ -2,13 +2,13 @@
   "domain": "petlibro",
   "name": "PETLIBRO",
   "codeowners": [
-    "@jjjonesjr33"
+    "@dhaucke"
   ],
   "config_flow": true,
-  "documentation": "https://github.com/jjjonesjr33/petlibro",
+  "documentation": "https://github.com/dhaucke/petlibro",
   "integration_type": "hub",
   "iot_class": "cloud_polling",
-  "issue_tracker": "https://github.com/jjjonesjr33/petlibro/issues",
+  "issue_tracker": "https://github.com/dhaucke/petlibro/issues",
   "loggers": ["petlibro"],
-  "version": "1.3"
+  "version": "2026.11.0"
 }

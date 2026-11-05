@@ -9,7 +9,7 @@ type _Unit = Unit
 SENTINEL = object()
 
 DOMAIN = "petlibro"
-GITHUB = "https://github.com/jjjonesjr33/petlibro"
+GITHUB = "https://github.com/dhaucke/petlibro"
 
 # Configuration keys
 CONF_EMAIL = "email"
