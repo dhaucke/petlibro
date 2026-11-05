@@ -1,4 +1,4 @@
-<p align="center"><img src="https://raw.githubusercontent.com/dhaucke/petlibro/dev/assets/petlibro-icon.png" alt="PETLIBRO Integration für Home Assistant" width="200"></p>
+![PETLIBRO Integration für Home Assistant](https://raw.githubusercontent.com/dhaucke/petlibro/dev/assets/petlibro-banner.png)
 
 # PETLIBRO
 
