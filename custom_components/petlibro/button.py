@@ -815,7 +815,7 @@ class PetLibroButtonEntity(PetLibroEntity[_DeviceT], ButtonEntity):
     @property
     def available(self) -> bool:
         """Check if the device is available."""
-        return getattr(self.device, 'online', False)
+        return self.device.refresh_ok and getattr(self.device, 'online', False)
 
     def _get_plan_id(self, select_key: str) -> int:
         """Read the currently selected plan ID from the companion select entity."""

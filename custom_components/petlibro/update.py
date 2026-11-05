@@ -124,7 +124,7 @@ class PetLibroUpdateEntity(PetLibroEntity[_DeviceT], UpdateEntity):
     @property
     def available(self) -> bool:
         _LOGGER.debug("[UpdateEntity] available returning: True")
-        return True
+        return self.device.refresh_ok
 
     async def async_release_notes(self) -> str | None:
         # Return detailed notes or just reuse summary

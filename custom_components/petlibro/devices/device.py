@@ -24,6 +24,10 @@ class Device(Event):
         
         self.feed_conv_factor = 1
         self.max_feed_portions = DEFAULT_MAX_FEED_PORTIONS
+        # False after a failed cloud refresh, so entities go unavailable instead of showing stale data.
+        # shortcut: only the base requests count, a failing device-specific request keeps the device
+        # available; count those too if single endpoints turn out to fail on their own.
+        self.refresh_ok = True
 
         self.update_data(data)
 
@@ -47,9 +51,16 @@ class Device(Event):
             data.update(await self.api.device_real_info(self.serial))
             data.update(await self.api.device_attribute_settings(self.serial))
             data.update({"boundPets": await self.api.device_get_bound_pets(self.serial)})
-            self.update_data(data)
         except Exception as e:
-            _LOGGER.error(f"Failed to refresh device data: {e}")
+            if self.refresh_ok:
+                _LOGGER.error("Failed to refresh device data for %s, marking unavailable: %s", self.serial, e)
+            self.refresh_ok = False
+            self.emit(EVENT_UPDATE)
+            return
+        if not self.refresh_ok:
+            _LOGGER.info("Device %s is reachable again", self.serial)
+        self.refresh_ok = True
+        self.update_data(data)
             
     # def update_data(self, data: dict) -> None:
     #     """Save the device info from a data dictionary."""

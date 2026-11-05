@@ -60,5 +60,10 @@ class PetLibroEntity(
         await super().async_added_to_hass()
         self.async_on_remove(self.device.on(EVENT_UPDATE, self.async_write_ha_state))
 
+    @property
+    def available(self) -> bool:
+        """Unavailable while the last cloud refresh of the device failed."""
+        return super().available and self.device.refresh_ok
+
 class PetLibroEntityDescription(EntityDescription, Generic[_DeviceT]):
     """PETLIBRO Entity description"""

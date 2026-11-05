@@ -142,7 +142,7 @@ class PetLibroSelectEntity(PetLibroEntity[_DeviceT], SelectEntity):
     def available(self) -> bool:
         """Return True if entity is available."""
         if self.key == "manual_feed_quantity_cups":
-            return self.enable_for_manual_feed
+            return self.device.refresh_ok and self.enable_for_manual_feed
         return super().available
 
     @property

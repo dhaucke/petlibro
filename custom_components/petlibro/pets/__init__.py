@@ -210,7 +210,11 @@ class Pet(Event):
             gen = Gender(self._data.get(API.SEX) or 0)
             return gen
         except ValueError:
-            _LOGGER.error("Unknown gender value: %s", self._data.get(API.SEX))
+            sex = self._data.get(API.SEX)
+            # Log once per pet and value: this property is read on every state write.
+            if getattr(self, "_logged_unknown_sex", None) != sex:
+                self._logged_unknown_sex = sex
+                _LOGGER.warning("Unknown gender value %s for pet %s, showing it as none", sex, self.id)
             return Gender.NONE
 
     nickname = name

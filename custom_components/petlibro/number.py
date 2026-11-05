@@ -169,7 +169,7 @@ class PetLibroNumberEntity(PetLibroEntity[_DeviceT], RestoreEntity, NumberEntity
     def available(self) -> bool:
         """Return True if entity is available."""
         if self.key == "manual_feed_quantity": 
-            return self.enable_for_manual_feed
+            return self.device.refresh_ok and self.enable_for_manual_feed
         return super().available
 
     @property

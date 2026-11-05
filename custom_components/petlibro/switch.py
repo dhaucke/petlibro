@@ -107,7 +107,7 @@ class PetLibroSwitchEntity(PetLibroEntity[_DeviceT], SwitchEntity):
     @property
     def available(self) -> bool:
         """Check if the device is available."""
-        return getattr(self.device, 'online', False)
+        return self.device.refresh_ok and getattr(self.device, 'online', False)
 
     async def async_turn_on(self, **kwargs: Any) -> None:
         """Turn the switch on."""
