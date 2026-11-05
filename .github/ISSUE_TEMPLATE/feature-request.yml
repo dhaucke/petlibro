@@ -3,7 +3,7 @@ description: Suggest a new feature or enhancement for the integration.
 title: "[Feature Request]: "
 labels: ["Enhancement"]
 assignees:
-  - jjjonesjr33
+  - dhaucke
 body:
   - type: markdown
     attributes:

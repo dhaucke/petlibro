@@ -1,13 +1,37 @@
-![Logo](https://raw.githubusercontent.com/jjjonesjr33/ha_petlibro/master/docs/media/logo.png)
+<p align="center"><img src="https://raw.githubusercontent.com/dhaucke/petlibro/dev/assets/petlibro-icon.png" alt="PETLIBRO Integration für Home Assistant" width="200"></p>
 
----
-# PETLIBRO integration for Home Assistant
-[![version][versionbadge]][versionlink] [![release][releasebadge]][releaselink] [![community][communitybadge]][communitylink] [![hainstall][hainstallbadge]][hainstall] [![starsbadge][starsbadge]][stars] [![hacs_badge][hacsbadge]][hacs]
+# PETLIBRO
 
-## About this fork
-Maintained fork of [jjjonesjr33/petlibro](https://github.com/jjjonesjr33/petlibro) with fixes for current Home Assistant releases (e.g. setup failing on Home Assistant 2026.11). The integration domain stays `petlibro`, so switching from the original in HACS keeps your existing configuration and entities.
+**PETLIBRO-Futterautomaten, Trinkbrunnen und Katzentoiletten über die PETLIBRO-Cloud in Home Assistant.**
 
-Issues with this fork: [dhaucke/petlibro/issues](https://github.com/dhaucke/petlibro/issues). Best effort, unpaid.
+[![Release](https://img.shields.io/github/v/release/dhaucke/petlibro?style=flat-square)](https://github.com/dhaucke/petlibro/releases/latest)
+[![HACS](https://img.shields.io/badge/HACS-Custom-41BDF5?style=flat-square)](https://github.com/hacs/integration)
+[![Home Assistant](https://img.shields.io/badge/Home%20Assistant-Custom%20Integration-18BCF2?style=flat-square)](https://www.home-assistant.io/)
+[![License](https://img.shields.io/github/license/dhaucke/petlibro?style=flat-square)](https://github.com/dhaucke/petlibro/blob/dev/LICENSE)
+
+[Mit HACS installieren](https://my.home-assistant.io/redirect/hacs_repository/?owner=dhaucke&repository=petlibro&category=integration) · [Problem melden](https://github.com/dhaucke/petlibro/issues)
+
+**Sprache:** [Deutsch](#warum-dieser-fork-existiert) · [English](#why-this-fork-exists)
+
+## Warum dieser Fork existiert
+
+Dies ist ein Fork von [jjjonesjr33/petlibro](https://github.com/jjjonesjr33/petlibro). Seit Home Assistant 2026.11 startet das Original nicht mehr, die fertigen Korrekturen aus der Community liegen dort aber ungemergt. Dieser Fork übernimmt sie:
+
+- **Einrichtung scheitert auf HA 2026.11**: `dataclass` wurde aus `homeassistant.components.sensor` importiert, das HA dort nie offiziell angeboten hat und seit 2026.11 nicht mehr enthält. Sieben Plattform-Module brachen mit `ImportError` ab, die Integration meldete nur „Failed to set up the config entry“ ([#294](https://github.com/jjjonesjr33/petlibro/issues/294), [PR #298](https://github.com/jjjonesjr33/petlibro/pull/298)).
+- **Veraltete Geräte-Abfrage**: `DeviceRegistry.async_get_device` hört in HA 2027.8 auf zu funktionieren; ersetzt durch eine Abfrage über die Geräte des eigenen Konfigurationseintrags ([PR #298](https://github.com/jjjonesjr33/petlibro/pull/298)).
+- **Warnung im Optionsdialog**: `step_id` wird jetzt explizit übergeben, wie HA es ab 2027.5 verlangt ([PR #291](https://github.com/jjjonesjr33/petlibro/pull/291)).
+
+Die Domain bleibt `petlibro`: Wer vom Original in HACS auf diesen Fork wechselt, behält Konto, Geräte und Entitäten, ohne neu einzurichten. Ansonsten unverändert gegenüber dem Original.
+
+## Why this fork exists
+
+This is a fork of [jjjonesjr33/petlibro](https://github.com/jjjonesjr33/petlibro). Since Home Assistant 2026.11 the original fails to start, while the finished community fixes sit unmerged there. This fork adopts them:
+
+- **Setup fails on HA 2026.11**: `dataclass` was imported from `homeassistant.components.sensor`, which never officially provided it and no longer does since 2026.11. Seven platform modules failed with `ImportError`, and the integration only reported "Failed to set up the config entry" ([#294](https://github.com/jjjonesjr33/petlibro/issues/294), [PR #298](https://github.com/jjjonesjr33/petlibro/pull/298)).
+- **Deprecated device lookup**: `DeviceRegistry.async_get_device` stops working in HA 2027.8; replaced by a lookup over the config entry's own devices ([PR #298](https://github.com/jjjonesjr33/petlibro/pull/298)).
+- **Options flow warning**: `step_id` is now passed explicitly, as HA requires from 2027.5 ([PR #291](https://github.com/jjjonesjr33/petlibro/pull/291)).
+
+The domain stays `petlibro`: switching from the original in HACS keeps your account, devices and entities without setting anything up again. Otherwise unchanged from upstream.
 
 ---
 
@@ -55,15 +79,8 @@ Issues with this fork: [dhaucke/petlibro/issues](https://github.com/dhaucke/petl
 > [!TIP]
 >* Most answers can be found in our [Wiki](https://github.com/jjjonesjr33/petlibro/wiki)
 > and if they can't, try the [Discussions](https://github.com/jjjonesjr33/petlibro/discussions)
->* Or get ahold of me via direct message on [Discord](https://discord.com/invite/3hkWMry) - `Jamie Jones Jr` / `jjjonesjr33` previously  `JJJonesJr33#0001`
+>* Problems with this fork: [Issues](https://github.com/dhaucke/petlibro/issues)
 
-
-# In Development
-#### This is still a WIP integration, features may or may not be removed at any time. If you have suggestions please let me know.
-> [!NOTE]
-  >* Tracking RFID per pet intance eat/drink - (PLWF305) - API Information gathered, working on implementation.
-  >* Live camera feed for Granary Smart Camera Feeder (PLAF203) - Currently missing the API to setup live stream. Seems to connect via Kalay TUTK, if you have any experience integrating with this platform, please reach out to help us implement this.
-  >* The Granary Smart Camera Feeder exposes the TUTK/Kalay camera credentials (`camera_id`, `camera_auth_info`, `tutk_user_token`, `tutk_app_url`) as sensor attributes. These can be used with external TUTK clients (e.g. go2rtc) to stream the feed locally.
 
 # NOTICE
 #### Alpha/Beta state notice for this plugin:
@@ -126,51 +143,3 @@ logger:
 
 6. **Verify installation**  
    - Navigate to *Settings → Devices & Services* and check that **Petlibro** appears.
-
----
-## Star History
-
-[![Star History Chart](https://star-history.dera.page/svg?repos=jjjonesjr33/petlibro&type=Date&theme=dark)](https://star-history.dera.page/#jjjonesjr33/petlibro&Date)
-
-[stars]: https://github.com/jjjonesjr33/petlibro/stargazers
-[starsbadge]: https://img.shields.io/github/stars/jjjonesjr33/petlibro?style=for-the-badge&logo=data:image/svg+xml;base64,PHN2ZyByb2xlPSJpbWciIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgdmlld0JveD0iMCAwIDE2IDE2Ij48cGF0aCBzdHlsZT0iZmlsbDojY2NjY2NjIiBkPSJNOCAuMjVhLjc1Ljc1IDAgMCAxIC42NzMuNDE4bDEuODgyIDMuODE1IDQuMjEuNjEyYS43NS43NSAwIDAgMSAuNDE2IDEuMjc5bC0zLjA0NiAyLjk3LjcxOSA0LjE5MmEuNzUxLjc1MSAwIDAgMS0xLjA4OC43OTFMOCAxMi4zNDdsLTMuNzY2IDEuOThhLjc1Ljc1IDAgMCAxLTEuMDg4LS43OWwuNzItNC4xOTRMLjgxOCA2LjM3NGEuNzUuNzUgMCAwIDEgLjQxNi0xLjI4bDQuMjEtLjYxMUw3LjMyNy42NjhBLjc1Ljc1IDAgMCAxIDggLjI1Wm0wIDIuNDQ1TDYuNjE1IDUuNWEuNzUuNzUgMCAwIDEtLjU2NC40MWwtMy4wOTcuNDUgMi4yNCAyLjE4NGEuNzUuNzUgMCAwIDEgLjIxNi42NjRsLS41MjggMy4wODQgMi43NjktMS40NTZhLjc1Ljc1IDAgMCAxIC42OTggMGwyLjc3IDEuNDU2LS41My0zLjA4NGEuNzUuNzUgMCAwIDEgLjIxNi0uNjY0bDIuMjQtMi4xODMtMy4wOTYtLjQ1YS43NS43NSAwIDAgMS0uNTY0LS40MUw4IDIuNjk0WiI+PC9wYXRoPjwvc3ZnPg==&label=Stars&color=ffffff
-
-[hacs]: https://hacs.xyz
-[hacsbadge]: https://img.shields.io/badge/HACS-Custom-black.svg?style=for-the-badge&logo=homeassistantcommunitystore&logoColor=ccc
-
-[hainstall]: https://my.home-assistant.io/redirect/config_flow_start/?domain=petlibro
-[hainstallbadge]: https://img.shields.io/badge/dynamic/json?style=for-the-badge&logo=home-assistant&logoColor=ccc&label=usage&suffix=%20installs&cacheSeconds=15600&url=https://analytics.home-assistant.io/custom_integrations.json&query=$.petlibro.total
-
-[versionlink]: https://github.com/dhaucke/petlibro/releases
-[versionbadge]: https://img.shields.io/github/manifest-json/v/dhaucke/petlibro?filename=custom_components%2Fpetlibro%2Fmanifest.json&color=slateblue&style=for-the-badge
-
-[releaselink]: https://github.com/dhaucke/petlibro/releases
-[releasebadge]: https://img.shields.io/github/v/release/dhaucke/petlibro?style=for-the-badge&logo=github&logoColor=ccc
-
-[communitylink]: https://community.home-assistant.io/t/petlibro-cloud-integration-non-tuya-wip/759978
-[communitybadge]: https://img.shields.io/static/v1.svg?label=Community&message=Forum&color=41bdf5&logo=HomeAssistant&logoColor=white&style=for-the-badge
-
-[developerslink]: https://github.com/jjjonesjr33/petlibro/discussions/56
-[developersbadge]: https://img.shields.io/badge/Support%20a%20Developer-❤️-black?style=for-the-badge
-
-
-
-
-
-
-
-
-[discordlink]: https://discord.com/invite/3hkWMry
-[discordbadge]: https://img.shields.io/discord/541574294656909312?style=for-the-badge&logo=discord&logoColor=white&color=5865F2
-
-[socialslink]: https://jjjonesjr33.com
-[socialsbadge]: https://img.shields.io/badge/Socials-JJJonesJr33-black?style=for-the-badge&logo=rss&logoColor=white
-
-[JJJonesJr33link]: https://github.com/jjjonesjr33
-[JJJonesJr33badge]: https://img.shields.io/badge/JJJonesJr33-GitHub-blue?style=for-the-badge&logo=github&logoColor=white
-
-[C4-Dimitrilink]: https://github.com/C4-Dimitri
-[C4-Dimitribadge]: https://img.shields.io/badge/C4%20Dimitri-GitHub-red?style=for-the-badge&logo=github&logoColor=white
-
-[FeliGoblinlink]: https://github.com/FeliGoblin
-[FeliGoblinbadge]: https://img.shields.io/badge/FeliGoblin-GitHub-green?style=for-the-badge&logo=github&logoColor=white

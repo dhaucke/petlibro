@@ -3,7 +3,7 @@ description: Suggest a Non-Tuya Petlibro device to add.
 title: "[Device]: "
 labels: ["Enhancement"]
 assignees:
-  - jjjonesjr33
+  - dhaucke
 body:
   - type: markdown
     attributes:
